@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Aprovar Cuidadores</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Aprovar Cuidadores</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for caregiver in caregivers %}
+                <tr>
+                    <td>
+                        {% if caregiver.foto %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ caregiver.foto) }}" alt="Foto de {{ caregiver.nome }}" class="img-thumbnail" style="width: 100px;">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/default.png') }}" alt="Sem foto" class="img-thumbnail" style="width: 100px;">
+                        {% endif %}
+                    </td>
+                    <td>{{ caregiver.nome }}</td>
+                    <td>{{ caregiver.cpf }}</td>
+                    <td>{{ caregiver.email }}</td>
+                    <td>{{ caregiver.telefone }}</td>
+                    <td>
+                        <form action="{{ url_for('admin_routes.approve_caregiver', caregiver_id=caregiver.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-success">Aprovar</button>
+                        </form>
+                        <form action="{{ url_for('admin_routes.delete_caregiver', caregiver_id=caregiver.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
