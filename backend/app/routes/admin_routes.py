@@ -70,7 +70,7 @@ def register_user():
             return redirect(url_for('admin_routes.register_user'))
 
         hashed_password = generate_password_hash(password, method='sha256')
-        new_user = User(username=username, password=hashed_password, role=role)
+        new_user = User(username=username, password_hash=hashed_password, role=role)
 
         db.session.add(new_user)
         db.session.commit()

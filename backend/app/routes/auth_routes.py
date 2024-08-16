@@ -16,7 +16,7 @@ def login_post():
     password = request.form.get('password')
     user = User.query.filter_by(username=username).first()
 
-    if not user or not check_password_hash(user.password, password):
+    if not user or not check_password_hash(user.password_hash, password):
         flash('Usuário ou senha incorretos')
         return redirect(url_for('auth_routes.login'))
 
@@ -41,7 +41,7 @@ def register_admin():
             return redirect(url_for('auth_routes.register_admin'))
 
         hashed_password = generate_password_hash(password, method='sha256')
-        new_user = User(username=username, password=hashed_password, role='admin')
+        new_user = User(username=username, password_hash=hashed_password, role='admin')
 
         db.session.add(new_user)
         db.session.commit()
