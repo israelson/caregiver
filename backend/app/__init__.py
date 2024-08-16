@@ -40,7 +40,7 @@ app.register_blueprint(api_routes)
 def create_default_admin():
     if not User.query.filter_by(role='admin').first():
         hashed_password = generate_password_hash('adminpassword', method='sha256')
-        default_admin = User(username='admin', password=hashed_password, role='admin')
+        default_admin = User(username='admin', password_hash=hashed_password, role='admin')
         db.session.add(default_admin)
         db.session.commit()
 
